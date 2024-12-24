@@ -50,6 +50,15 @@ class PinPasswordActivity :
   override fun routeToSuccessDialog() {
     pinPasswordActivityPresenter.handleRouteToSuccessDialog()
   }
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    pinPasswordActivityPresenter.handleSaveInstanceState(outState)
+  }
+
+  override fun onRestoreInstanceState(outState: Bundle) {
+    super.onRestoreInstanceState(outState)
+    pinPasswordActivityPresenter.handleRestoreInstanceState(outState)
+  }
 
   override fun onDestroy() {
     super.onDestroy()

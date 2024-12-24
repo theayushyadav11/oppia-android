@@ -1,5 +1,6 @@
 package org.oppia.android.app.profile
 
+import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
@@ -43,6 +44,7 @@ class PinPasswordActivityPresenter @Inject constructor(
   private var profileId = ProfileId.getDefaultInstance()
   private lateinit var alertDialog: AlertDialog
   private var confirmedDeletion = false
+  private lateinit var binding: PinPasswordActivityBinding
 
   fun handleOnCreate() {
     val args = activity.intent.getProtoExtra(
@@ -54,7 +56,7 @@ class PinPasswordActivityPresenter @Inject constructor(
     internalProfileId = args?.internalProfileId ?: -1
     profileId = ProfileId.newBuilder().setInternalId(internalProfileId).build()
 
-    val binding = DataBindingUtil.setContentView<PinPasswordActivityBinding>(
+    binding = DataBindingUtil.setContentView<PinPasswordActivityBinding>(
       activity,
       R.layout.pin_password_activity
     )
@@ -246,6 +248,14 @@ class PinPasswordActivityPresenter @Inject constructor(
       // changes that happen from underneath it (like deleting all profiles).
       exitProcess(0)
     }
+  }
+  fun handleSaveInstanceState(outState: Bundle) {
+    val enteredPin = binding.pinPasswordInputPinEditText.text.toString()
+    outState.putString("enteredPin", enteredPin)
+  }
+  fun handleRestoreInstanceState(restoreInstanceState: Bundle) {
+    val restoredPin = restoreInstanceState.getString("enteredPin")
+    binding.pinPasswordInputPinEditText.setText(restoredPin)
   }
 
   private fun showSuccessDialog() {
