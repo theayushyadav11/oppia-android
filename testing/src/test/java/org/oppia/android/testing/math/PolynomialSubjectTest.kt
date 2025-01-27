@@ -7,6 +7,7 @@ import org.junit.runners.JUnit4
 import org.oppia.android.app.model.Polynomial
 import org.oppia.android.app.model.Real
 
+/** Tests for [PolynomialSubject]. */
 @RunWith(JUnit4::class)
 class PolynomialSubjectTest {
 
