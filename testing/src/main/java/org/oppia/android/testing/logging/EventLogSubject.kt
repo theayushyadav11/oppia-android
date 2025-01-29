@@ -70,8 +70,6 @@ import org.oppia.android.app.model.UserTypeAnswer
 import org.oppia.android.app.model.WrittenTranslationLanguageSelection
 import org.oppia.android.testing.logging.EventLogSubject.Companion.assertThat
 
-// TODO(#4272): Add tests for this class.
-
 /**
  * Truth subject for verifying properties of [EventLog]s.
  *
