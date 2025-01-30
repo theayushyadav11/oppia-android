@@ -1,5 +1,6 @@
 package org.oppia.android.testing.logging
 
+import org.junit.Assert.assertThrows
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -12,10 +13,11 @@ import org.oppia.android.app.model.OppiaLanguage
 import org.oppia.android.app.model.ProfileId
 import org.oppia.android.app.model.WrittenTranslationLanguageSelection
 
+/** Tests for [EventLogSubject]. */
 @RunWith(JUnit4::class)
 class EventLogSubjectTest {
   @Test
-  fun testHasTimeStamp_withTimeStamp_matchesTimeStamp() {
+  fun testEventLogSubject_matchesCorrectTimeStamp() {
     val eventLog = EventLog.newBuilder()
       .setTimestamp(123456789)
       .build()
@@ -25,19 +27,21 @@ class EventLogSubjectTest {
       .isEqualTo(123456789)
   }
 
-  @Test(expected = AssertionError::class)
-  fun testHasTimeStamp_withDifferentTimeStamp_fails() {
+  @Test
+  fun testEventLogSubject_failsOnUnmatchingTimestamp() {
     val eventLog = EventLog.newBuilder()
       .setTimestamp(123456789)
       .build()
 
-    EventLogSubject.assertThat(eventLog)
-      .hasTimestampThat()
-      .isEqualTo(987654321)
+    assertThrows(AssertionError::class.java) {
+      EventLogSubject.assertThat(eventLog)
+        .hasTimestampThat()
+        .isEqualTo(987654321)
+    }
   }
 
   @Test
-  fun testIsEssentialPriority_withEssentialPriority_matchesEssentialPriority() {
+  fun testEventLogSubject_matchesPriorityEssential() {
     val eventLog = EventLog.newBuilder()
       .setPriority(EventLog.Priority.ESSENTIAL)
       .build()
@@ -46,18 +50,19 @@ class EventLogSubjectTest {
       .isEssentialPriority()
   }
 
-  @Test(expected = AssertionError::class)
-  fun testIsEssentialPriority_withDifferentPriority_fails() {
+  @Test
+  fun testEventLogSubject_matchEssentialPriorityWithDifferentPriority_fails() {
     val eventLog = EventLog.newBuilder()
       .setPriority(EventLog.Priority.OPTIONAL)
       .build()
-
-    EventLogSubject.assertThat(eventLog)
-      .isEssentialPriority()
+    assertThrows(AssertionError::class.java) {
+      EventLogSubject.assertThat(eventLog)
+        .isEssentialPriority()
+    }
   }
 
   @Test
-  fun testIsOptionalPriority_withOptionalPriority_matchesOptionalPriority() {
+  fun testEventLogSubject_matchesPriorityOptional() {
     val eventLog = EventLog.newBuilder()
       .setPriority(EventLog.Priority.OPTIONAL)
       .build()
@@ -66,18 +71,19 @@ class EventLogSubjectTest {
       .isOptionalPriority()
   }
 
-  @Test(expected = AssertionError::class)
-  fun testIsOptionalPriority_withDifferentPriority_fails() {
+  @Test
+  fun testEventLogSubject_failsOnUnmatchingOptionalPriority() {
     val eventLog = EventLog.newBuilder()
       .setPriority(EventLog.Priority.ESSENTIAL)
       .build()
-
-    EventLogSubject.assertThat(eventLog)
-      .isOptionalPriority()
+    assertThrows(AssertionError::class.java) {
+      EventLogSubject.assertThat(eventLog)
+        .isOptionalPriority()
+    }
   }
 
   @Test
-  fun testHasNoProfileId_withNoProfileId() {
+  fun testEventLogSubject_eventWithNoProfileId_returnsNoProfileId() {
     val eventLog = EventLog.newBuilder()
       .build()
 
@@ -85,21 +91,22 @@ class EventLogSubjectTest {
       .hasNoProfileId()
   }
 
-  @Test(expected = AssertionError::class)
-  fun testHasNoProfileId_withProfileId_fails() {
+  @Test
+  fun testEventLogSubject_eventWithProfileId_failsNoProfileExpected() {
     val profileId = ProfileId.newBuilder()
       .setInternalId(1)
       .build()
     val eventLog = EventLog.newBuilder()
       .setProfileId(profileId)
       .build()
-
-    EventLogSubject.assertThat(eventLog)
-      .hasNoProfileId()
+    assertThrows(AssertionError::class.java) {
+      EventLogSubject.assertThat(eventLog)
+        .hasNoProfileId()
+    }
   }
 
   @Test
-  fun testHasProfileId_withProfileId_matchesProfileId() {
+  fun testEventLogSubject_matchesProfileIdPresent() {
     val profileId = ProfileId.newBuilder()
       .setInternalId(1)
       .build()
@@ -112,8 +119,8 @@ class EventLogSubjectTest {
       .isEqualTo(profileId)
   }
 
-  @Test(expected = AssertionError::class)
-  fun testHasProfileId_withDifferentProfileId_fails() {
+  @Test
+  fun testEventLogSubject_failsOnDifferentProfileId() {
     val profileId = ProfileId.newBuilder()
       .setInternalId(1)
       .build()
@@ -123,14 +130,15 @@ class EventLogSubjectTest {
     val differentProfileId = ProfileId.newBuilder()
       .setInternalId(2)
       .build()
-
-    EventLogSubject.assertThat(eventLog)
-      .hasProfileIdThat()
-      .isEqualTo(differentProfileId)
+    assertThrows(AssertionError::class.java) {
+      EventLogSubject.assertThat(eventLog)
+        .hasProfileIdThat()
+        .isEqualTo(differentProfileId)
+    }
   }
 
   @Test
-  fun testHasAppLanguageSelectionThat_withAppLanguageSelection_matchesAppLanguageSelection() {
+  fun testEventLogSubject_hasSameAppLanguageSelection() {
     val appLanguageSelection = AppLanguageSelection.newBuilder()
       .setSelectedLanguage(OppiaLanguage.ENGLISH)
       .build()
@@ -143,8 +151,8 @@ class EventLogSubjectTest {
       .isEqualTo(appLanguageSelection)
   }
 
-  @Test(expected = AssertionError::class)
-  fun testHasAppLanguageSelectionThat_withDifferentAppLanguageSelection_fails() {
+  @Test
+  fun testEventLogSubject_failsOnDifferentAppLanguageSelectionPresent() {
     val appLanguageSelection = AppLanguageSelection.newBuilder()
       .setSelectedLanguage(OppiaLanguage.ENGLISH)
       .build()
@@ -154,14 +162,15 @@ class EventLogSubjectTest {
     val differentAppLanguageSelection = AppLanguageSelection.newBuilder()
       .setSelectedLanguage(OppiaLanguage.ARABIC)
       .build()
-
-    EventLogSubject.assertThat(eventLog)
-      .hasAppLanguageSelectionThat()
-      .isEqualTo(differentAppLanguageSelection)
+    assertThrows(AssertionError::class.java) {
+      EventLogSubject.assertThat(eventLog)
+        .hasAppLanguageSelectionThat()
+        .isEqualTo(differentAppLanguageSelection)
+    }
   }
 
   @Test
-  fun testHasWrittenTranslationLanguageSelectionThat_matchcesWrittenTranslationLanguageSelection() {
+  fun testEventLogSubject_matchesWrittenTranslationLanguageSelection() {
     val writtenTranslationLanguageSelection = WrittenTranslationLanguageSelection.newBuilder()
       .setSelectedLanguage(OppiaLanguage.ENGLISH)
       .build()
@@ -174,8 +183,8 @@ class EventLogSubjectTest {
       .isEqualTo(writtenTranslationLanguageSelection)
   }
 
-  @Test(expected = AssertionError::class)
-  fun testHasWrittenTranslationLanguageSelectionThat_withDifferentLanguageSelection_fails() {
+  @Test
+  fun testEventLogSubject_failsOnDifferentWrittenTranslationLanguageSelection() {
     val writtenLanguageSelection = WrittenTranslationLanguageSelection.newBuilder()
       .setSelectedLanguage(OppiaLanguage.ENGLISH)
       .build()
@@ -185,14 +194,15 @@ class EventLogSubjectTest {
     val differentLanguageSelection = WrittenTranslationLanguageSelection.newBuilder()
       .setSelectedLanguage(OppiaLanguage.ARABIC)
       .build()
-
-    EventLogSubject.assertThat(eventLog)
-      .hasWrittenTranslationLanguageSelectionThat()
-      .isEqualTo(differentLanguageSelection)
+    assertThrows(AssertionError::class.java) {
+      EventLogSubject.assertThat(eventLog)
+        .hasWrittenTranslationLanguageSelectionThat()
+        .isEqualTo(differentLanguageSelection)
+    }
   }
 
   @Test
-  fun testHasAudioTranslationLanguageSelectionThat_withMatchingSelection_passes() {
+  fun testEventLogSubject_matchesAudioTranslationLanguageSelection() {
     val audioTranslationLanguageSelection = AudioTranslationLanguageSelection.newBuilder()
       .setSelectedLanguage(OppiaLanguage.ENGLISH)
       .build()
@@ -205,8 +215,8 @@ class EventLogSubjectTest {
       .isEqualTo(audioTranslationLanguageSelection)
   }
 
-  @Test(expected = AssertionError::class)
-  fun testHasAudioTranslationLanguageSelectionThat_withDifferentSelection_fails() {
+  @Test
+  fun testEventLogSubject_failsOnDifferentAudioTranslationLanguageSelection() {
     val audioTranslationLanguageSelection = AudioTranslationLanguageSelection.newBuilder()
       .setSelectedLanguage(OppiaLanguage.ENGLISH)
       .build()
@@ -216,14 +226,15 @@ class EventLogSubjectTest {
     val differentSelection = AudioTranslationLanguageSelection.newBuilder()
       .setSelectedLanguage(OppiaLanguage.ARABIC)
       .build()
-
-    EventLogSubject.assertThat(eventLog)
-      .hasAudioTranslationLanguageSelectionThat()
-      .isEqualTo(differentSelection)
+    assertThrows(AssertionError::class.java) {
+      EventLogSubject.assertThat(eventLog)
+        .hasAudioTranslationLanguageSelectionThat()
+        .isEqualTo(differentSelection)
+    }
   }
 
   @Test
-  fun testHasOpenExplorationActivityContext_withMatchingContext_passes() {
+  fun testEventLogSubject_hasOpenExplorationActivityContextPresent() {
     val eventLog = EventLog.newBuilder()
       .setContext(
         EventLog.Context.newBuilder()
@@ -235,17 +246,18 @@ class EventLogSubjectTest {
       .hasOpenExplorationActivityContext()
   }
 
-  @Test(expected = AssertionError::class)
-  fun testHasOpenExplorationActivityContext_withDifferentContext_fails() {
+  @Test
+  fun testEventLogSubject_openExplorationActivityContextAbsent_fails() {
     val eventLog = EventLog.newBuilder()
       .build()
-
-    EventLogSubject.assertThat(eventLog)
-      .hasOpenExplorationActivityContext()
+    assertThrows(AssertionError::class.java) {
+      EventLogSubject.assertThat(eventLog)
+        .hasOpenExplorationActivityContext()
+    }
   }
 
   @Test
-  fun testHasOpenInfoTabContext_withMatchingContext_passes() {
+  fun testEventLogSubject_hasOpenInfoTabContextPresent() {
     val eventLog = EventLog.newBuilder()
       .setContext(
         EventLog.Context.newBuilder()
@@ -258,7 +270,7 @@ class EventLogSubjectTest {
   }
 
   @Test
-  fun testHasOpenLessonsTabContext_withMatchingContext_passes() {
+  fun testEventLogSubject_hasOpenLessonsTabContextPresent() {
     val eventLog = EventLog.newBuilder()
       .setContext(
         EventLog.Context.newBuilder()
@@ -271,7 +283,7 @@ class EventLogSubjectTest {
   }
 
   @Test
-  fun testHasOpenPracticeTabContext_withMatchingContext_passes() {
+  fun testEventLogSubject_hasOpenPracticeTabContextPresent() {
     val eventLog = EventLog.newBuilder()
       .setContext(
         EventLog.Context.newBuilder()
@@ -284,7 +296,7 @@ class EventLogSubjectTest {
   }
 
   @Test
-  fun testHasOpenRevisionTabContext_withMatchingContext_passes() {
+  fun testEventLogSubject_hasOpenRevisionTabContextPresent() {
     val eventLog = EventLog.newBuilder()
       .setContext(
         EventLog.Context.newBuilder()
