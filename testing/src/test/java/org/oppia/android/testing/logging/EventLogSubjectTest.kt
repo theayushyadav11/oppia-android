@@ -138,7 +138,7 @@ class EventLogSubjectTest {
   }
 
   @Test
-  fun testEventLogSubject_hasSameAppLanguageSelection() {
+  fun testEventLogSubject_matchesAppLanguageSelection() {
     val appLanguageSelection = AppLanguageSelection.newBuilder()
       .setSelectedLanguage(OppiaLanguage.ENGLISH)
       .build()
@@ -234,7 +234,7 @@ class EventLogSubjectTest {
   }
 
   @Test
-  fun testEventLogSubject_hasOpenExplorationActivityContextPresent() {
+  fun testEventLogSubject_hasOpenExplorationActivityContext() {
     val eventLog = EventLog.newBuilder()
       .setContext(
         EventLog.Context.newBuilder()
@@ -247,7 +247,7 @@ class EventLogSubjectTest {
   }
 
   @Test
-  fun testEventLogSubject_openExplorationActivityContextAbsent_fails() {
+  fun testEventLogSubject_missingExplorationActivityContext_fails()  {
     val eventLog = EventLog.newBuilder()
       .build()
     assertThrows(AssertionError::class.java) {
@@ -257,7 +257,7 @@ class EventLogSubjectTest {
   }
 
   @Test
-  fun testEventLogSubject_hasOpenInfoTabContextPresent() {
+  fun testEventLogSubject_hasOpenInfoTabContext() {
     val eventLog = EventLog.newBuilder()
       .setContext(
         EventLog.Context.newBuilder()
@@ -270,7 +270,7 @@ class EventLogSubjectTest {
   }
 
   @Test
-  fun testEventLogSubject_hasOpenLessonsTabContextPresent() {
+  fun testEventLogSubject_hasOpenLessonsTabContext() {
     val eventLog = EventLog.newBuilder()
       .setContext(
         EventLog.Context.newBuilder()
@@ -296,7 +296,7 @@ class EventLogSubjectTest {
   }
 
   @Test
-  fun testEventLogSubject_hasOpenRevisionTabContextPresent() {
+  fun testEventLogSubject_hasOpenRevisionTabContext() {
     val eventLog = EventLog.newBuilder()
       .setContext(
         EventLog.Context.newBuilder()
