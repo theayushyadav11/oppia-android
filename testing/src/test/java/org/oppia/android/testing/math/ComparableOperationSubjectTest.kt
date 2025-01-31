@@ -1,9 +1,9 @@
 package org.oppia.android.testing.math
 
+import org.junit.Assert.assertThrows
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.junit.Assert.assertThrows
 import org.oppia.android.app.model.ComparableOperation
 import org.oppia.android.app.model.Real
 
