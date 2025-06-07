@@ -41,6 +41,7 @@ import org.oppia.android.domain.oppialogger.analytics.CpuPerformanceSnapshotterM
 import org.oppia.android.domain.oppialogger.exceptions.UncaughtExceptionLoggerModule
 import org.oppia.android.domain.oppialogger.logscheduler.MetricLogSchedulerModule
 import org.oppia.android.domain.oppialogger.loguploader.LogReportWorkerModule
+import org.oppia.android.domain.platformparameter.PlatformParameterControllerDebugModule
 import org.oppia.android.domain.platformparameter.PlatformParameterModule
 import org.oppia.android.domain.platformparameter.PlatformParameterSingletonModule
 import org.oppia.android.domain.platformparameter.syncup.PlatformParameterSyncUpWorkerModule
@@ -65,7 +66,6 @@ import org.oppia.android.util.parser.image.ImageParsingModule
 import org.oppia.android.util.system.OppiaClockModule
 import org.oppia.android.util.threading.DispatcherModule
 import javax.inject.Singleton
-import org.oppia.android.domain.platformparameter.PlatformParameterControllerDebugModule
 
 /**
  * Root Dagger component for developer versions of the application.
@@ -102,7 +102,7 @@ import org.oppia.android.domain.platformparameter.PlatformParameterControllerDeb
     PerformanceMetricsAssessorModule::class, PerformanceMetricsConfigurationsModule::class,
     DeveloperBuildFlavorModule::class,
     CpuPerformanceSnapshotterModule::class, ExplorationProgressModule::class,
-    AuthenticationModule::class,PlatformParameterControllerDebugModule::class
+    AuthenticationModule::class, PlatformParameterControllerDebugModule::class
   ]
 )
 interface DeveloperApplicationComponent : ApplicationComponent {
